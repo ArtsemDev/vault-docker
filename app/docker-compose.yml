@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python .
+    ports:
+      - "80:80"
+    environment:
+      VAULT_URL: "http://vault:8200/v1/secret/foo"
+      VAULT_TOKEN: "<vault-root-token>"
+    volumes:
+      - ".:/opt"
+    restart: always
+    networks:
+          - vault
+
+networks:
+  vault:
+    external: true
